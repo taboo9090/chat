@@ -50,6 +50,6 @@ This command launches the client executable, connecting it to the server and pro
 
 ## Contributing
 
-Feel free to contribute to the improvement of this Makefile or the Chat Application itself. If you encounter any issues or have suggestions, please open an issue or submit a pull request.
+Feel free to contribute to the improvement of Chat Application. If you encounter any issues or have suggestions, please open an issue or submit a pull request.
 
 Happy chatting!
