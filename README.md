@@ -1,6 +1,6 @@
 # Chat Application Makefile README
 
-This Makefile is designed to simplify the building and running process of the Chat Application, a C++ program utilizing UDP sockets for communication. Please note that the application is currently compatible only with Unix-based operating systems, such as Linux or macOS.
+This Makefile is designed to simplify the building and running process of the Chat Application, a C++ program utilizing TCP sockets for communication. Please note that the application is currently compatible only with Unix-based operating systems, such as Linux or macOS.
 
 ## Usage
 
