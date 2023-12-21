@@ -96,7 +96,22 @@ namespace Net
                     std::string notFoundMessage = "\033[1;31mUser not found.\033[0m";
                     send(clientSocket, notFoundMessage.c_str(), notFoundMessage.length(), 0);
                 }
-            } else 
+            }
+            else if (buffer[0] == '/' and buffer[1] == 'l')
+            {
+                printf("%s+ Available users:%s\n", GREEN_TEXT.c_str(), RESET_TEXT.c_str());
+                std::map<std::string, int>::iterator it = clientSockets.begin();
+                while (it != clientSockets.end())
+                {   
+                    if (it->first != clientName)
+                    {
+                        send(clientSocket, it->first.c_str(), sizeof(buffer), 0);
+                        ++it;
+                    }
+                    
+                }
+            }
+            else
             {
                 for (const auto& pair : clientSockets) 
                 {

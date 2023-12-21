@@ -67,6 +67,11 @@ namespace Net
         while (true)
         {
             std::cin.getline(buffer, sizeof(buffer));
+            if (buffer[0] == '/' and buffer[1] == 'm')
+            {
+                printf("\n        Welcome to the OS CHAT\n----------------------------------------\nAvailable commands:\n+ @<recipient> <message> - sends a message to the specific user\n+ /list - returns available users\n+ /menu - returns the list of available commands\n+ /exit - exit even in Africa still exit----------------------------------------\n");
+                continue;
+            }
             send(clientSocket, buffer, strlen(buffer), 0);
         }
 
