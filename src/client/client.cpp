@@ -1,5 +1,3 @@
-// client.cpp
-
 #include "client.hpp"
 #include <cstring>
 #include <unistd.h>
@@ -7,35 +5,42 @@
 #include <iostream>
 #include <thread>
 
-#define RED_TEXT "\033[1;31m"
-#define GREEN_TEXT "\033[1;32m"
-#define RESET_TEXT "\033[0m"
+const int IPv4 = AF_INET;
+const int TCP = SOCK_STREAM;
+
+const std::string RED_TEXT = "\033[1;31m";
+const std::string GREEN_TEXT = "\033[1;32m";
+const std::string RESET_TEXT = "\033[0m";
 
 namespace Net
 {
     Client::Client() {
-        clientSocket = socket(AF_INET, SOCK_STREAM, 0);
-        if (clientSocket == -1) {
-            std::cerr << "Error creating socket.\n";
+        // Create the socket
+        if ((clientSocket = socket(IPv4, TCP, 0)) == -1)
+        {
+            printf("- Error creating socket\n.");
+            return;
         }
 
+        // Initialize address configurations
         sockaddr_in serverAddr{};
         serverAddr.sin_family = AF_INET;
         serverAddr.sin_port = htons(12345);
-        inet_pton(AF_INET, "127.0.0.1", &serverAddr.sin_addr);
+        serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");        
 
+        // Connect to the server
         if (connect(clientSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == -1) {
-            std::cerr << RED_TEXT << "Error connecting to server.\n" << RESET_TEXT;
+            printf("- Error connecting to server.\n");
             close(clientSocket);
         }
 
-        std::cout << "Connected to server.\n";
+        // Menu
+        printf("\n        Welcome to the OS CHAT\n----------------------------------------\nAvailable commands:\n+ @<recipient> <message> - sends a message to the specific user\n+ /list - returns available users\n+ /menu - returns the list of available commands\n+ /exit - exit even in Africa still exit----------------------------------------\n");
 
-        char buffer[256];
-        std::cout << "Enter your name: ";
+        // SignIn
+        printf("\n%sEnter your name:%s ", GREEN_TEXT.c_str(), RESET_TEXT.c_str());
         std::cin.getline(buffer, sizeof(buffer));
-        send(clientSocket, buffer, strlen(buffer), 0);
-    
+        send(clientSocket, buffer, sizeof(buffer), 0);
     }
 
     Client::~Client() {
@@ -43,11 +48,10 @@ namespace Net
     }
 
     void Client::receiveMessages(int clientSocket) {
-        char buffer[1024];
         while (true) {
             ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
             if (bytesRead <= 0) {
-                std::cerr << RED_TEXT << "Connection closed by server.\n" << RESET_TEXT;
+                printf("%s- Cpnnection closed by server.%s\n", RED_TEXT.c_str(), RESET_TEXT.c_str());
                 break;
             }
 

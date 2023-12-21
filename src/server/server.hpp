@@ -1,5 +1,3 @@
-// server.hpp
-
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
@@ -12,6 +10,8 @@ namespace Net
     {
     private:
         int serverSocket;
+        char buffer[1024];
+        ssize_t bytesRead;
         std::map<int, std::string> clientNames;
         std::map<std::string, int> clientSockets;
 
